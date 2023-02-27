@@ -1,24 +1,27 @@
-import logo from './logo.svg';
-import './App.css';
+import { Provider } from "react-redux";
+import { Route, Routes, BrowserRouter } from "react-router-dom";
+import { configrationStore } from "./store/configStore";
+import TodosList from "./Components/Todos/Todos";
+import AddTodo from "./Components/AddTodo/AddTodo";
+
+const store = configrationStore();
+
+store.subscribe(()=>{
+  // console.log('rrrr',store.getState())
+})
 
 function App() {
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Provider store={store}>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/edit/:id" element={<AddTodo />} />
+          <Route path="/create" element={<AddTodo />} />
+          <Route path="/" element={<TodosList />} />
+        </Routes>
+      </BrowserRouter>
+    </Provider>
   );
 }
 
